@@ -1,4 +1,5 @@
-# postmanMasterClass
+# postmanMasterClass  <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/>
+
 
 Postman is a powerful tool used for testing and documenting APIs. With its user-friendly interface and comprehensive features, Postman has become a popular choice for developers and testers worldwide.
 
