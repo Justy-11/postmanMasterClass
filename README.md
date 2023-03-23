@@ -4,7 +4,7 @@
 Postman is a powerful tool used for testing and documenting APIs. With its user-friendly interface and comprehensive features, Postman has become a popular choice for developers and testers worldwide.
 
 <!-- Images -->
-<img src="ScreenShots/newman run collection 1.png" width="500" height="500" > <img src="ScreenShots/newman run collection 2.png" width="500" height="500" > <img src="ScreenShots/SampleCollectionRunner Monitor.png" width="500" height="500" ><img src="ScreenShots/create a mock server.png" width="500" height="500" > <img src="ScreenShots/Flows collection flow.png" width="500" height="500" >
+<img src="ScreenShots/newman run collection 1.png" width="500" height="300" > <img src="ScreenShots/newman run collection 2.png" width="500" height="300" > <img src="ScreenShots/SampleCollectionRunner Monitor.png" width="500" height="300" ><img src="ScreenShots/create a mock server.png" width="500" height="300" > <img src="ScreenShots/Flows collection flow.png" width="500" height="300" >
 
 
 * GET, POST, PUT, DELETE requests
