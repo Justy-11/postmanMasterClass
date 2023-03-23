@@ -1,2 +1,2 @@
 *.json linguist-language=JSON
-*.json linguist-language=JavaScript
+# *.json linguist-language=JavaScript
