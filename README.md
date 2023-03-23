@@ -18,7 +18,7 @@ Postman is a powerful tool used for testing and documenting APIs. With its user-
 ✅ Request chaining 🔗<br>
 ✅ Workflows 🔄<br>
 ✅ Mock server, mocking 🤖<br>
-✅ Flows 🌊
+✅ Flows 🌊  
 
 <figure>
   <img src="ScreenShots/newman run collection 1.png" alt="Screenshot of Newman Run Collection 1" width="400" height=250">
