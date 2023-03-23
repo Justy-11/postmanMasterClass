@@ -1,6 +1,3 @@
 *.json linguist-language=JSON
 *.jsontext linguist-language=JSON
 *.json linguist-language=JavaScript
-# *.xml linguist-language=XML  # not recognizing
-*.json linguist-language=JSON  
-*.postman_collection.json text  
