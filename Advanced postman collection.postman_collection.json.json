@@ -1,0 +1,1288 @@
+{
+	"info": {
+		"_postman_id": "2e115778-2a46-4cf6-b46c-a5ccc76d4ee2",
+		"name": "Advanced postman collection",
+		"description": "For learning purpose\n\nwe can run the collection requests from here, or can run specific requests at a time using \"Run collection\" option",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21907291"
+	},
+	"item": [
+		{
+			"name": "Create multiple users",
+			"item": [
+				{
+					"name": "Data from json file",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{job}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "create multiple users using a json file. By using the body of the request's values as placeholders"
+					},
+					"response": []
+				},
+				{
+					"name": "Data from csv + test scripts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(data.name);\r",
+									"    console.log(data[\"name\"])\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Body contains job\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(pm.iterationData.get(\"job\"));\r",
+									"    console.log(pm.iterationData.get(\"job\"))\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"job\": \"{{job}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "create multiple users using a json file. By using the body of the request's values as placeholders"
+					},
+					"response": []
+				}
+			],
+			"description": "- Create multiple from external files\n- Run the folder"
+		},
+		{
+			"name": "ScriptExecutionOrder",
+			"item": [
+				{
+					"name": "Google",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Google (post-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Before Google (pre-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.google.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"google",
+								"com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Bing (post-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Befor Bing (pre-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.bing.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"bing",
+								"com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Yahoo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Yahoo (post-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Before Yahoo (pre-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.yahoo.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"yahoo",
+								"com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user with pre-request script",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// send a Get request\r",
+									"pm.sendRequest(\"https://reqres.in/api/users\", function (err, response) {\r",
+									"    // of-course we are purposefully failing it for our experiment\r",
+									"    // (as 200 code will be get for OK)\r",
+									"    // if we put 200, the request will be send\r",
+									"    if(response.code != 201){\r",
+									"        console.error(\"Health check failed, server is down!!\")\r",
+									"        throw new Error(\"Server is down!!\");\r",
+									"    }\r",
+									"    console.log(response.json());\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"After creating user\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Here we are creating the user under certain pre-request script"
+					},
+					"response": []
+				}
+			],
+			"description": "This is a script execution order example.\n\nScript execution order is, _**Collection -> Folder -> Request/Response**_\n\nScript wise order, _**Pre-request script -> Request/Response -> Post-request (test) script**_\n\nWe can add these in Tests and Pre-request script sections.\n\nWhen all are done see the order in console (if logged to console).\n\nWe can use this order scripts, if the request only need to be send when a post condition is satisfied or a variable has the specified value, . . .",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(\"Folder level - pre request script\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(\"Folder level - post (test) request script\");"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Request Chaining",
+			"item": [
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonResponse = pm.response.json();\r",
+									"var id = jsonResponse.id;\r",
+									"\r",
+									"// OR\r",
+									"\r",
+									"// var jsonResponse = JSON.parse(responseBody);\r",
+									"// var id = jsonResponse.id;\r",
+									"\r",
+									"console.log(id);\r",
+									"\r",
+									"// set the created id as collection variable \r",
+									"// -> so we can retrieve it as varible in next request\r",
+									"pm.collectionVariables.set(\"user_id\", id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://reqres.in/api/users",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "create users"
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch with id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users/{{user_id}}",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						},
+						"description": "Fetch user with specific id. Here id set as variable {{user_id}}. When creating the user in \"reqres.in\" it's not gonna create the user in that website. Because we are not running the server. If we run on a real api it will work"
+					},
+					"response": []
+				}
+			],
+			"description": "Here we are chaining the requests. That is one request's response (output) is needed for the next request to be send.\n\nFor example: We created a post request to create the user, so from the response after creating the user, we get the id and set it as collection variable. Then fetch with that (collection variable) id."
+		},
+		{
+			"name": "Tests",
+			"item": [
+				{
+					"name": "Fetch all users Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"verify status code 200\", function(){\r",
+									"    pm.response.to.have.status(200); // BDD chain \r",
+									"});  \r",
+									"\r",
+									"// OR ->\r",
+									"\r",
+									"pm.test(\"verify status code 200\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);  //expect function with chai assertion .eql()\r",
+									"});\r",
+									"\r",
+									"// function() can replaced as ()=>\r",
+									"pm.test(\"Assert status method OK\", ()=>{\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Assert OK using expect function\", ()=>{\r",
+									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"    // eql, equal, .. all are work as same\r",
+									"})\r",
+									"\r",
+									"// can combine 2 above assertions (both should pass or it fails) ->\r",
+									"pm.test(\"verify status code 200 and OK\", function(){\r",
+									"    pm.expect(pm.response.code).to.eql(200);\r",
+									"    pm.expect(pm.response.status).to.equal(\"OK\");\r",
+									"});  \r",
+									"\r",
+									"\r",
+									"pm.test(\"Assert first name is Lindsay\", ()=>{\r",
+									"    var jsonResponse = pm.response.json();  // gets the JSON response from the API\r",
+									"    var data = jsonResponse.data;  // extracts the data field\r",
+									"    pm.expect(data[1].first_name).to.equal(\"Lindsay\");\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Assert Ferguson included in response\", ()=>{\r",
+									"    pm.expect(pm.response.text()).to.include(\"Ferguson\");\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users?page=2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test using code snippets",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string 'avatar'\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"avatar\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.value).to.eql(100);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 100ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"});\r",
+									"\r",
+									"// set and get global, cllection .. variables print (console.log()) it out to console\r",
+									"console.log(pm.globals.get(\"testGlobal\"));\r",
+									"console.log(pm.collectionVariables.get(\"testVariable\"));\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://reqres.in/api/users?page=2",
+							"protocol": "https",
+							"host": [
+								"reqres",
+								"in"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						},
+						"description": "Testing request using snippets rather than coding ourselves"
+					},
+					"response": []
+				}
+			],
+			"description": "- About writing tets in postman. **Tests are written in javascript**\n- its under the \"Tests\" section. Postman has the built in postman object (pm), using that we can validate either request and response.\n- Test results shown under TestResults section after sending requests\n- View chai assertion library **chaijs.com**"
+		},
+		{
+			"name": "Workflow",
+			"item": [
+				{
+					"name": "Bing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Bing (post-request script)\");\r",
+									"\r",
+									"postman.setNextRequest(\"Google\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Befor Bing (pre-request script)\");\r",
+									"\r",
+									"postman.setNextRequest(\"Yahoo\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.bing.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"bing",
+								"com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Google",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Google (post-request script)\");\r",
+									"\r",
+									"postman.setNextRequest(\"Yahoo\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Before Google (pre-request script)\");\r",
+									"\r",
+									"postman.setNextRequest(\"Bing\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.google.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"google",
+								"com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Yahoo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Yahoo (post-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Before Yahoo (pre-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.yahoo.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"yahoo",
+								"com"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "- This is to check the workflow of the requests. Normally the requests are run on the order that we see under the collection seciton. But we can change the order by drag and place requests in a specific order\n    \n\n- Using postman.sendNextRequest() method in the \"Tests\" and \"Pre-request script\" sections, we can use either request id or request name as the parameter to the above method to change the order of the requests. The above method execute the next request mentioned under the Tests section before executing the Pre-request section."
+		},
+		{
+			"name": "Flows",
+			"item": [
+				{
+					"name": "Google",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Google (post-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Before Google (pre-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.google.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"google",
+								"com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Bing (post-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Befor Bing (pre-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.bing.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"bing",
+								"com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Yahoo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - After Yahoo (post-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"console.log(\"Request level - Before Yahoo (pre-request script)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.yahoo.com",
+							"protocol": "https",
+							"host": [
+								"www",
+								"yahoo",
+								"com"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "This is is check the Flows section in postman.\n\n- Can add rqeuest blocks\n- Can connect blocks with Signals\n- Can also add Delays"
+		},
+		{
+			"name": "Fetch all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				},
+				"description": "Fetch all users from page 2"
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch with id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "Fetch user with specific id\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"leader\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				},
+				"description": "create users"
+			},
+			"response": []
+		},
+		{
+			"name": "Update user details",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "update the user with the specific id giving name and job"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				},
+				"description": "Delete user with specific id\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "parameters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.youtube.com/watch?v=J-J0Bg3V-GY&list=PLLS0D9-W-1dkul4rJKgBNGFaGqC3e8xCu&index=6",
+					"protocol": "https",
+					"host": [
+						"www",
+						"youtube",
+						"com"
+					],
+					"path": [
+						"watch"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "J-J0Bg3V-GY"
+						},
+						{
+							"key": "list",
+							"value": "PLLS0D9-W-1dkul4rJKgBNGFaGqC3e8xCu"
+						},
+						{
+							"key": "index",
+							"value": "6"
+						}
+					]
+				},
+				"description": "parameters"
+			},
+			"response": []
+		},
+		{
+			"name": "BulkEdit from base url https://www.youtube.com/watch?",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.youtube.com/watch?v=J-J0Bg3V-GY&list=PLLS0D9-W-1dkul4rJKgBNGFaGqC3e8xCu&index=6",
+					"protocol": "https",
+					"host": [
+						"www",
+						"youtube",
+						"com"
+					],
+					"path": [
+						"watch"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "J-J0Bg3V-GY"
+						},
+						{
+							"key": "list",
+							"value": "PLLS0D9-W-1dkul4rJKgBNGFaGqC3e8xCu"
+						},
+						{
+							"key": "index",
+							"value": "6"
+						}
+					]
+				},
+				"description": "Testing bulk edit feature -> By clicking the bulk edit option key value pairs can be copied thoroughly, rather than copying one by one\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "API key authorization",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "{{WeatherMapKey}}",
+							"type": "string"
+						},
+						{
+							"key": "in",
+							"value": "query",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "appid",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=484efe0cad8ac781deb609c036a8f00e\n",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "44.34"
+						},
+						{
+							"key": "lon",
+							"value": "10.99"
+						},
+						{
+							"key": "appid",
+							"value": "484efe0cad8ac781deb609c036a8f00e\n"
+						}
+					]
+				},
+				"description": "Testing \"API key\" authorization with Openweather API"
+			},
+			"response": []
+		},
+		{
+			"name": "Basic auth authorization",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "postman",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/basic-auth",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"basic-auth"
+					]
+				},
+				"description": "\"Basic auth\" authorization using built in url in postman for testing"
+			},
+			"response": []
+		},
+		{
+			"name": "Bearer token auth",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "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",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/user/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"user",
+						"repos"
+					]
+				},
+				"description": "Bearer token testing using generated github access token"
+			},
+			"response": []
+		},
+		{
+			"name": "Digest auth",
+			"request": {
+				"auth": {
+					"type": "digest",
+					"digest": [
+						{
+							"key": "disableRetryRequest",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "postman",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "MD5",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/digest-auth",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"digest-auth"
+					]
+				},
+				"description": "Digest auth with postman built in url"
+			},
+			"response": []
+		},
+		{
+			"name": "OAuth2.0 + Collection + Global variables",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "clientId",
+							"value": "{{ClientID}}",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "{{ClientSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "{{acessTokenURL}}",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "{{authURL}}",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/callback",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "https://mail.google.com/",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gmail.googleapis.com/gmail/v1/users/jathursh11@gmail.com/messages",
+					"protocol": "https",
+					"host": [
+						"gmail",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"gmail",
+						"v1",
+						"users",
+						"jathursh11@gmail.com",
+						"messages"
+					]
+				},
+				"description": "client - postman app, server - gmail api  \nclient id:215286578606-gb6qliam08doqf9r73rp3l89omp7s9m8.apps.googleusercontent.com  \nclient secret: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\n\nwill create a access token, then we can use postman apis to access the given gmail\n\n+\n\ncollection variables are set such that those are only avilable inside the specific collection (Advanced postman collection)"
+			},
+			"response": []
+		},
+		{
+			"name": "Global variables",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://example.com/{{testBaseUrl}}",
+					"protocol": "https",
+					"host": [
+						"example",
+						"com"
+					],
+					"path": [
+						"{{testBaseUrl}}"
+					]
+				},
+				"description": "set a url part as global variable and replace the part by global variable's name -> {{global_variable}}\n\nIf the collection of apis need to have same variable at once , we can set a global variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Environment variables",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://postman-echo.com/basic-auth",
+					"protocol": "https",
+					"host": [
+						"postman-echo",
+						"com"
+					],
+					"path": [
+						"basic-auth"
+					]
+				},
+				"description": "Testing basic auth with setting username and password as environment variables (dev env, QA env, staging env, production env). Different environments has different set of variables values"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authURL",
+			"value": "https://accounts.google.com/o/oauth2/auth"
+		},
+		{
+			"key": "acessTokenURL",
+			"value": "https://accounts.google.com/o/oauth2/token"
+		},
+		{
+			"key": "user_id",
+			"value": ""
+		}
+	]
+}
