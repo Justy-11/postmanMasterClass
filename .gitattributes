@@ -1,3 +1,4 @@
-*.json linguist-language=JSON
-*.jsontext linguist-language=JSON
-*.json linguist-language=JavaScript
+# *.json linguist-language=JSON
+# *.jsontext linguist-language=JSON
+# *.json linguist-language=JavaScript
+* text=auto
